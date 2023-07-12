@@ -84,7 +84,7 @@ subfolder = 'nonstationary'
 if args.noise_type in ['cabin', 'car', 'wav', 'engine', 'pink', 'wind']:
     subfolder = 'stationary'
 
-noise_info = read_noise("./noise_types/nonstationary", [args.noise_type])
+noise_info = read_noise(f"./noise_types/{subfolder}", [args.noise_type])
 
 # add "stationary" noise to Training
 train_noisy_files = add_noise(
