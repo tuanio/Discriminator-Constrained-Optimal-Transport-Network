@@ -8,6 +8,7 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--target-root", default="/Desktop/TIMIT_DA_target_helicopter")
+parser.add_argument("--noise-type", default='helicopter')
 
 args = parser.parse_args()
 
@@ -79,14 +80,17 @@ def read_noise(noise_path, noise_types):
 
 """---------------- Add noise to clean speech----------------"""
 
-noise_cabin, _types = read_noise("./noise_types/stationary", ["cabin"])
-noise_helicopter, more_types = read_noise("./noise_types/nonstationary", ["helicopter"])
+subfolder = 'nonstationary'
+if args.noise_type in ['cabin', 'car', 'wav', 'engine', 'pink', 'wind']:
+    subfolder = 'stationary'
+
+noise_info = read_noise("./noise_types/nonstationary", [args.noise_type])
 
 # add "stationary" noise to Training
 train_noisy_files = add_noise(
     open("target_CoreTrainList.txt", "r"),
     target_folder=os.path.join(target_root, "train/noisy/"),
-    noise_info=(noise_cabin + noise_helicopter, _types + more_types),
+    noise_info=noise_info,
     SNRs=[-12, -9, -6, -3, 0, 3, 6, 9, 12],
 )
 
@@ -95,7 +99,7 @@ train_noisy_files = add_noise(
 test_noisy_files = add_noise(
     open("target_CoreTestList.txt", "r"),
     target_folder=os.path.join(target_root, "test/noisy/"),
-    noise_info=(noise_cabin + noise_helicopter, _types + more_types),
+    noise_info=noise_info,
     SNRs=[-12, -9, -6, -3, 0, 3, 6, 9],
 )
 
