@@ -4,6 +4,7 @@ import numpy as np
 import scipy
 import torch
 from tqdm import tqdm
+import argparse
 from pathlib import Path
 
 epsilon = np.finfo(float).eps
@@ -48,7 +49,12 @@ def make_spectrum(filename=None, y=None, feature_type='logmag', _max=None, _min=
 
 
 if __name__ == '__main__':
-    target_root = "/Desktop/TIMIT_DA_target_helicopter"
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--target-root', default="/Desktop/TIMIT_DA_target_helicopter")
+
+    args = parser.parse_args()
+    target_root = args.target_root 
 
     for stage in ['train', 'test']:
         print(f'converting {stage} files')

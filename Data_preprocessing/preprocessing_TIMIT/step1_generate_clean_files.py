@@ -2,9 +2,17 @@ import os
 import numpy as np
 from sphfile import SPHFile   # pip install sphfile
 from shutil import copyfile
+import argparse
 
-TIMIT_path = "/Desktop/TIMIT"                          # TIMIT dataset location
-target_root = "/Desktop/TIMIT_DA_target_helicopter"    # target folder for generated speech
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--timit-path', default="/Desktop/TIMIT")
+parser.add_argument('--target-root', default="/Desktop/TIMIT_DA_target_helicopter")
+
+args = parser.parse_args()
+
+TIMIT_path = args.timit_path                          # TIMIT dataset location
+target_root = args.target_root    # target folder for generated speech
 
 def write_wav(list_file, write_path, outfile_name):
     infile = open(list_file, 'r')

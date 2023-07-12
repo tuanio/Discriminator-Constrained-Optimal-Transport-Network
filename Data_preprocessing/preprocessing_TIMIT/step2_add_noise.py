@@ -2,9 +2,17 @@ import os
 import numpy as np
 import librosa
 import scipy.io.wavfile as wav
+import argparse
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--target-root', default="/Desktop/TIMIT_DA_target_helicopter")
+
+args = parser.parse_args()
 
 SR = 16000   # sampling rate
-target_root = "/Desktop/TIMIT_DA_target_helicopter"
+target_root = args.target_root 
 
 def add_noise(clean_files, target_folder, noise_info, SNRs):
     noise_data, noise_types = noise_info
